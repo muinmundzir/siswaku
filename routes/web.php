@@ -28,7 +28,7 @@ Route::get('sampledata', function () {
             'updated_at' => '2016-03-10 19:10:15'
         ],
     ]);
-});
+}); 
 
 // Route controller rahasia
 Route::get('halaman-rahasia', [

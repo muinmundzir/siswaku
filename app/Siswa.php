@@ -14,4 +14,6 @@ class Siswa extends Model
         'tanggal_lahir',
         'jenis_kelamin'
     ];
+
+    protected $dates = ['tanggal_lahir'];
 }
