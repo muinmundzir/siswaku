@@ -1,3 +1,7 @@
+@if (isset($siswa))
+    {!! Form::hidden('id', $siswa->id) !!}
+@endif
+
 @if ($errors->any())
     <div class="form-group {{ $errors->has('nisn') ? 'has-error' : 'has-success'}}">
 @else
@@ -23,7 +27,7 @@
 </div>
 
 @if ($errors->any())
-    <div class="form-group {{ $errors->has('tanggal_lahir' ? 'has-error' : 'has-success')}}">
+    <div class="form-group {{ $errors->has('tanggal_lahir') ? 'has-error' : 'has-success'}}">
 @else
     <div class="form-group">
 @endif
@@ -36,7 +40,7 @@
 </div>
 
 @if ($errors->any())
-    <div class="form-group {{ $errors->has('jenis_kelamin' ? 'has-error' : 'has-success')}}">
+    <div class="form-group {{ $errors->has('jenis_kelamin') ? 'has-error' : 'has-success'}}">
 @else
     <div class="form-group">
 @endif
@@ -53,6 +57,18 @@
     </div>
     @if ($errors->has('jenis_kelamin'))
         <span class="help-block">{{ $errors->first('jenis_kelamin')}}</span>
+    @endif
+</div>
+
+@if ($errors->any())
+    <div class="form-group {{ $errors->has('nomor_telepon') ? 'has-error' : 'has-success' }}">
+@else
+    <div class="form-group">
+@endif
+    {!! Form::label('nomor_telepon', 'Nomor Telepon:', ['class' => 'control-label']) !!}
+    {!! Form::text('nomor_telepon', !empty($siswa) ? $siswa->telepon : null, ['class' => 'form-control']) !!}
+    @if ($errors->has('nomor_telepon'))
+        <span class="help-block">{{ $errors->first('nomor_telepon')}}</span>
     @endif
 </div>
 

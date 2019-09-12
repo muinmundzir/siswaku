@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Siswa;
+use App\Telepon;
 use Validator;
 
 class SiswaController extends Controller
@@ -27,13 +28,19 @@ class SiswaController extends Controller
             'nama_siswa' => 'required|string|max:30',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
+            'nomor_telepon' => 'sometimes|numeric|digits_between:10,15|unique:telepon,nomor_telepon',
         ]);
 
         if($validator->fails()){
             return redirect('siswa/create')->withInput()->withErrors($validator);
         }
 
-        Siswa::create($input);
+        $siswa = Siswa::create($input);
+        
+        $telepon = new Telepon;
+        $telepon->nomor_telepon = $request->input('nomor_telepon');
+        $siswa->telepon()->save($telepon);
+
         return redirect('siswa');
     }
 
@@ -44,12 +51,53 @@ class SiswaController extends Controller
 
     public function edit($id) {
         $siswa = Siswa::findOrFail($id);
+
+        if (!empty($siswa->telepon->nomor_telepon)) {
+            $siswa->nomor_telepon =  $siswa->telepon->nomor_telepon;
+        }
         return view('siswa.edit', compact('siswa'));
     }
 
     public function update(Request $request, $id) {
         $siswa = Siswa::findOrFail($id);
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'nisn' => 'required|string|size:4|
+            unique:siswa,nisn,'. $request->input('id'),
+            'nama_siswa' => 'required|string|max:30',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:L,P',
+            'nomor_telepon' => 'sometimes|nullable|numeric|
+            digits_between:10,15|unique:telepon,nomor_telepon,'
+            .$request->input('id'). ',id_siswa',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('siswa/'.$id.'/edit')->withInput()->withErrors($validator);
+        }
+
         $siswa->update($request->all());
+
+        //Update nomor telepon
+        if ($siswa->telepon) {
+            if($request->filled('nomor_telepon')){
+                $telepon = $siswa->telepon;
+                $telepon->nomor_telepon = $request->input('nomor_telepon');
+                $siswa->telepon()->save($telepon);
+            }
+            else {
+                $siswa->telepon()->delete();
+            }
+        }
+        else {
+            if($request->filled('nomor_telepon')){
+                $telepon = new Telepon;
+                $telepon->nomor_telepon = $request->input('nomor_telepon');
+                $siswa->telepon()->save($telepon);
+            }
+        }
+
         return redirect('siswa');
     }
 
