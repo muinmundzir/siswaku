@@ -14,6 +14,10 @@
                 <td>{{ $siswa->nama_siswa }}</td>
             </tr>
             <tr>
+                <th>Kelas</th>
+                <td>{{ $siswa->kelas->nama_kelas}}</td>
+            </tr>
+            <tr>
                 <th>Tanggal Lahir</th>
                 <td>{{ $siswa->tanggal_lahir->format('d-m-Y') }}</td>
             </tr>
@@ -25,6 +29,28 @@
                 <th>Nomor Telepon</th>
                 <td>{{ !empty($siswa->telepon->nomor_telepon) ? 
                 $siswa->telepon->nomor_telepon : '-' }}</td>
+            </tr>
+            <tr>
+                <th>Hobi</th>
+                <td>
+                    @foreach ($siswa->hobi as $item)
+                        <span>{{ $item->nama_hobi }}</span>,
+                    @endforeach
+                </td>
+            </tr>
+            <tr>
+                <th>Foto</th>
+                <td>
+                    @if (isset($siswa->foto))
+                        <img src="{{ asset('fotoupload/'.$siswa->foto)}}">
+                    @else
+                        @if ($siswa->jenis_kelamin == 'L')
+                            <img src="{{ asset('fotoupload/dummymale.jpg')}}">
+                        @else
+                            <img src="{{ asset('fotoupload/dammyfemale.jpg')}}">
+                        @endif
+                    @endif
+                </td>
             </tr>
         </table>
     </div>

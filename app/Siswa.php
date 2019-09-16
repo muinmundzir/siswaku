@@ -12,7 +12,9 @@ class Siswa extends Model
         'nisn',
         'nama_siswa',
         'tanggal_lahir',
-        'jenis_kelamin'
+        'jenis_kelamin',
+        'id_kelas',
+        'foto',
     ];
 
     protected $dates = ['tanggal_lahir'];
@@ -25,5 +27,15 @@ class Siswa extends Model
     public function kelas()
     {
         return $this->belongsTo('App\Kelas', 'id_kelas');
+    }
+
+    public function hobi()
+    {
+        return $this->belongsToMany('App\Hobi', 'hobi_siswa', 'id_siswa', 'id_hobi')->withTimeStamps();
+    }
+
+    public function getHobiSiswaAttribute()
+    {
+        return $this->hobi->pluck('id')->toArray();
     }
 }

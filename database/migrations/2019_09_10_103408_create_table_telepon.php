@@ -16,10 +16,11 @@ class CreateTableTelepon extends Migration
         Schema::create('telepon', function (Blueprint $table) {
             $table->integer('id_siswa')->unsigned()->primary('id');
             $table->foreign('id_siswa')
-            ->references('id')->on('siswa')
+            ->references('id')
+            ->on('siswa')
             ->onDelete('cascade')
             ->onUpdate('cascade');
-            $table->string('nomor_telepon')->unique();
+            $table->string('nomor_telepon')->unique()->nullable();
             $table->timestamps();
         });
     }

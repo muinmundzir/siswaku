@@ -160,6 +160,17 @@ return [
             'numeric' => 'NOMOR TELEPON harus diisi angka.',
             'digits_between' => 'NOMOR TELEPON harus diisi antara :min atau :max digit.',
         ],
+
+        'id_kelas' => [
+            'required' => 'Kolom KELAS harus diisi.'
+        ],
+
+        'foto' => [
+            'image' => 'Kolom FOTO hanya boleh berisi file gambar.',
+            'max' => 'Kolom FOTO tidak boleh lebih dari 500 KB.',
+            'mimes' => 'Kolom FOTO hanya boeh diisi file *.jpg, *jpeg, *.png.',
+            'dimensions' => 'FOTO harus berukuran 150x180 pixel.',
+        ]
     ],
 
     /*

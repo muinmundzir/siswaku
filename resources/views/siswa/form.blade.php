@@ -40,6 +40,22 @@
 </div>
 
 @if ($errors->any())
+    <div class="form-group {{ $errors->has('id_kelas') ? 'has-error' : 'has-success' }}">
+@else
+    <div class="form-group">
+@endif
+    {!! Form::label('id_kelas', 'Kelas:', ['class' => 'control-label']) !!}
+    @if (count($list_kelas) > 0)
+        {!! Form::select('id_kelas', $list_kelas, null, ['class' => 'form-control', 'id' => 'id_kelas', 'placeholder' => 'Pilih Kelas']) !!}
+    @else
+        <p>Tidak ada pilihan kelas</p>
+    @endif
+    @if ($errors->has('id_kelas'))
+        <span class="help-block">{{ $errors->first('id_kelas')}}</span>
+    @endif
+</div>
+
+@if ($errors->any())
     <div class="form-group {{ $errors->has('jenis_kelamin') ? 'has-error' : 'has-success'}}">
 @else
     <div class="form-group">
@@ -66,9 +82,54 @@
     <div class="form-group">
 @endif
     {!! Form::label('nomor_telepon', 'Nomor Telepon:', ['class' => 'control-label']) !!}
-    {!! Form::text('nomor_telepon', !empty($siswa) ? $siswa->telepon : null, ['class' => 'form-control']) !!}
+    {!! Form::text('nomor_telepon', null, ['class' => 'form-control']) !!}
     @if ($errors->has('nomor_telepon'))
         <span class="help-block">{{ $errors->first('nomor_telepon')}}</span>
+    @endif
+</div>
+
+@if ($errors->any())
+    <div class="form-group {{ $errors->has('hobi_siswa') ? 'has-error' : 'has-success' }}">
+@else
+    <div class="form-group">
+@endif
+    {!! Form::label('hobi_siswa', 'Hobi:', ['class' => 'control-label']) !!}
+    @if (count($list_hobi) > 0)
+        @foreach ($list_hobi as $key => $value)
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('hobi_siswa[]', $key, null) !!}
+                    {{ $value }}
+                </label>
+            </div>
+        @endforeach
+    @else
+        <p>Tidak ada pilihan hobi</p>
+    @endif
+</div>
+
+@if ($errors->any())
+    <div class="form-group {{ $errors->has('foto') ? 'has-error' : 'has-success'}}">
+@else
+    <div class="form-group">
+@endif
+    {!! Form::label('foto', 'Foto:') !!}
+    {!! Form::file('foto') !!}
+    @if ($errors->has('foto'))
+        <span class="help-block">{{$errors->first('foto')}}</span>
+    @endif
+
+    {{-- Menampilkan Foto --}}
+    @if (isset($siswa))
+        @if (isset($siswa->foto))
+            <img src="{{ asset('fotoupload/'.$siswa->foto)}}">
+        @else
+            @if ($siswa->jenis_kelamin == 'L')
+                <img src="{{ asset('fotoupload/dummymale.jpg')}}">
+            @else
+                <img src="{{ asset('fotoupload/dummyfemale.jpg')}}">
+            @endif
+        @endif
     @endif
 </div>
 

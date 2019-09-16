@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SiswaRequest;
 use App\Siswa;
 use App\Telepon;
-use Validator;
+use App\Kelas;
+use App\Hobi;
+use Storage;
 
 class SiswaController extends Controller
 {
     public function index() {
-        $siswa_list = Siswa::orderBy('nama_siswa', 'asc')
+        $siswa_list = Siswa::orderBy('nisn')
                     ->paginate(10);
         $jumlah_siswa = Siswa::count();
         return view('siswa.index', compact('siswa_list', 'jumlah_siswa'));
@@ -20,66 +23,75 @@ class SiswaController extends Controller
         return view("siswa.create");
     }
 
-    public function store(Request $request) {  
+    public function store(SiswaRequest $request) {  
         $input = $request->all();
 
-        $validator = Validator::make($input, [
-            'nisn' => 'required|string|size:4|unique:siswa,nisn',
-            'nama_siswa' => 'required|string|max:30',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:L,P',
-            'nomor_telepon' => 'sometimes|numeric|digits_between:10,15|unique:telepon,nomor_telepon',
-        ]);
-
-        if($validator->fails()){
-            return redirect('siswa/create')->withInput()->withErrors($validator);
+        //Upload Foto
+        if ($request->hasFile('foto')) {
+            $input['foto'] = $this->uploadFoto($request);
         }
 
+        //Insert Siswa
         $siswa = Siswa::create($input);
         
-        $telepon = new Telepon;
-        $telepon->nomor_telepon = $request->input('nomor_telepon');
-        $siswa->telepon()->save($telepon);
+        //Insert Telepon
+        if($request->filled('nomor_telepon')){
+            $this->insertTelepon($request, $siswa);
+        }
+
+        //Insert Hobi
+        $siswa->hobi()->attach($request->input('hobi_siswa'));
 
         return redirect('siswa');
     }
 
-    public function show($id) {
-        $siswa = Siswa::findOrFail($id);
+    public function show(Siswa $siswa) {
         return view('siswa.show', compact('siswa'));
     }
 
-    public function edit($id) {
-        $siswa = Siswa::findOrFail($id);
-
+    public function edit(Siswa $siswa) {
         if (!empty($siswa->telepon->nomor_telepon)) {
             $siswa->nomor_telepon =  $siswa->telepon->nomor_telepon;
         }
+
         return view('siswa.edit', compact('siswa'));
     }
 
-    public function update(Request $request, $id) {
-        $siswa = Siswa::findOrFail($id);
+    public function update(SiswaRequest $request, Siswa $siswa) {
         $input = $request->all();
 
-        $validator = Validator::make($input, [
-            'nisn' => 'required|string|size:4|
-            unique:siswa,nisn,'. $request->input('id'),
-            'nama_siswa' => 'required|string|max:30',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:L,P',
-            'nomor_telepon' => 'sometimes|nullable|numeric|
-            digits_between:10,15|unique:telepon,nomor_telepon,'
-            .$request->input('id'). ',id_siswa',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('siswa/'.$id.'/edit')->withInput()->withErrors($validator);
+        //Update Foto
+        if($request->hasFile('foto')){
+            $input['foto'] = $this->uploadFoto($request, $siswa);
         }
 
-        $siswa->update($request->all());
+        //Update Siswa
+        $siswa->update($input);
 
         //Update nomor telepon
+        $this->updateTelepon($request, $siswa);
+
+        //Update Hobi
+        $siswa->hobi()->sync($request->input('hobi_siswa'));
+
+        return redirect('siswa');
+    }
+
+    public function destroy(Siswa $siswa) {
+        //Hapus foto kalau ada
+        $this->hapusFoto($siswa);
+
+        $siswa->delete();
+        return redirect('siswa');
+    }
+
+    private function insertTelepon(SiswaRequest $request, Siswa $siswa){
+        $telepon = new Telepon;
+        $telepon->nomor_telepon =  $request->input('nomor_telepon');
+        $siswa->telepon()->save($telepon);
+    }
+
+    private function updateTelepon(SiswaRequest $request, Siswa $siswa){
         if ($siswa->telepon) {
             if($request->filled('nomor_telepon')){
                 $telepon = $siswa->telepon;
@@ -97,13 +109,46 @@ class SiswaController extends Controller
                 $siswa->telepon()->save($telepon);
             }
         }
-
-        return redirect('siswa');
     }
 
-    public function destroy($id) {
-        $siswa = Siswa::findOrFail($id);
-        $siswa->delete();
-        return redirect('siswa');
+    private function uploadFoto(SiswaRequest $request){
+        $foto = $request->file('foto');
+        $ext =  $foto->getClientOriginalExtension();
+
+        if ($request->file('foto')->isValid()) {
+            $foto_name = date('YmdHis').".$ext";
+            $request->file('foto')->move('fotoupload', $foto_name);
+            return $foto_name;
+        }
+        return false;
+    }
+
+    private function updateFoto(SiswaRequest $request, Siswa $siswa){
+        //Jika user mengisi foto
+        if($request->hasFile('foto')){
+            //Hapus foto lama jika ada foto baru
+            $exist = Storage::disk('foto')->exists($siswa->foto);
+            if (isset($siswa->foto) && $exist) {
+                $delete = Storage::disk('foto')->delete($siswa->foto);
+            }
+
+            //Upload foto baru
+            $foto = $request->file('foto');
+            $ext = $foto->getClientOriginalExtension();
+            if ($request->file('foto')->isValid()) {
+                $foto_name = date('YmdHis').".$ext";
+                $upload_path = 'fotoupload';
+                $request->file('foto')->move($upload_path, $foto_name);
+                return $foto_name;
+            }
+        }
+    }
+
+    private function hapusFoto(Siswa $siswa){
+        $is_foto_exist = Storage::disk('foto')->exists($siswa->foto);
+
+        if ($is_foto_exist) {
+            Storage::disk('foto')->delete($siswa->foto);
+        }
     }
 }

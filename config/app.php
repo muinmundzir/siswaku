@@ -176,6 +176,7 @@ return [
         // Tambahan        
         Collective\Html\HtmlServiceProvider::class,
         App\Providers\SiswakuAppServiceProvider::class,
+        App\Providers\FormSiswaServiceProvider::class,
         
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
