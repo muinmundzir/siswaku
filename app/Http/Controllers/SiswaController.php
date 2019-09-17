@@ -9,6 +9,7 @@ use App\Telepon;
 use App\Kelas;
 use App\Hobi;
 use Storage;
+use Session;
 
 class SiswaController extends Controller
 {
@@ -25,6 +26,8 @@ class SiswaController extends Controller
 
     public function store(SiswaRequest $request) {  
         $input = $request->all();
+
+        Session::flash('flash_message', 'Data siswa berhasil disimpan.');
 
         //Upload Foto
         if ($request->hasFile('foto')) {
@@ -74,6 +77,7 @@ class SiswaController extends Controller
         //Update Hobi
         $siswa->hobi()->sync($request->input('hobi_siswa'));
 
+        Session::flash('flash_message', 'Data siswa berhasil diupdate.');
         return redirect('siswa');
     }
 
@@ -82,6 +86,8 @@ class SiswaController extends Controller
         $this->hapusFoto($siswa);
 
         $siswa->delete();
+        Session::flash('flash_message', 'Data ' .$siswa->nama_siswa. ' berhasil dihapus.');
+        Session::flash('penting', true);
         return redirect('siswa');
     }
 
@@ -150,5 +156,34 @@ class SiswaController extends Controller
         if ($is_foto_exist) {
             Storage::disk('foto')->delete($siswa->foto);
         }
+    }
+
+    public function cari(Request $request){
+        $kata_kunci =  trim($request->input('kata_kunci'));
+
+        if (!empty($kata_kunci)) {
+            $jenis_kelamin = $request->input('jenis_kelamin');
+            $id_kelas = $request->input('id_kelas');
+
+            // Query
+            $query = Siswa::where('nama_siswa', 'LIKE', '%' .$kata_kunci. '%');
+            (!empty($jenis_kelamin)) ? $query->where('jenis_kelamin', $jenis_kelamin) : '';
+            (!empty($id_kelas)) ? $query->where('id_kelas', $id_kelas) : '';
+
+            $siswa_list = $query->paginate(2);
+
+            // URL Links pagination
+            $pagination = (!empty($jenis_kelamin)) ?
+            $siswa_list->appends(['jenis_kelamin' => $jenis_kelamin]) : '';
+            $pagination = (!empty($id_kelas)) ? $pagination =
+            $siswa_list->appends(['id_kelas' => $id_kelas]) : '';
+            $pagination = $siswa_list->appends(['kata_kunci', $kata_kunci]);
+
+            $jumlah_siswa = $siswa_list->total();
+            return view('siswa.index', compact('siswa_list', 'kata_kunci',
+            'pagination', 'jumlah_siswa', 'id_kelas', 'jenis_kelamin'));
+        }
+
+        return redirect('siswa');
     }
 }

@@ -4,6 +4,9 @@
     <div id='siswa'>
         <h2>Siswa</h2>
 
+        @include('_partial.flash_message')
+        @include('siswa.form_pencarian')
+
         @if (!empty($siswa_list))
             <table class="table">
                 <thead>
@@ -58,7 +61,7 @@
 
         <div class="tombol-nav">
             <div>
-                <a href="siswa/create" class="btn btn-primary">Tambah Siswa</a>
+                <a href="{{ url('siswa/create')}}" class="btn btn-primary">Tambah Siswa</a>
             </div>
         </div>
 

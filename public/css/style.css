@@ -76,3 +76,8 @@ h2 {
 ul.pagination, ul.pager {
     margin-top: 8px;
 }
+
+#pencarian {
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+}

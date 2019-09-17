@@ -41,14 +41,19 @@ Route::get('showmesecret', 'RahasiaController@showMeSecret');
 Route::get('/', 'PagesController@homepage');
 Route::get('about', 'PagesController@about');
 
+// Route pencarian
+Route::get('siswa/cari', 'SiswaController@cari');
+
 // Route controller siswa
-Route::get('siswa', 'SiswaController@index');
-Route::get('siswa/create', 'SiswaController@create');
-Route::get('siswa/{siswa}', 'SiswaController@show');
-Route::post('siswa', 'SiswaController@store');
-Route::get('siswa/{siswa}/edit', 'SiswaController@edit');
-Route::patch('siswa/{siswa}', 'SiswaController@update');
-Route::delete('siswa/{siswa}', 'SiswaController@destroy');
+Route::resource('siswa', 'SiswaController');
+
+    // Route::get('siswa', 'SiswaController@index');
+    // Route::get('siswa/create', 'SiswaController@create');
+    // Route::get('siswa/{siswa}', 'SiswaController@show');
+    // Route::post('siswa', 'SiswaController@store');
+    // Route::get('siswa/{siswa}/edit', 'SiswaController@edit');
+    // Route::patch('siswa/{siswa}', 'SiswaController@update');
+    // Route::delete('siswa/{siswa}', 'SiswaController@destroy');
 
 
 

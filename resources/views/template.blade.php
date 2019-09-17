@@ -19,6 +19,7 @@
     
 <script src="{{ asset('js/jquery_2_2_1.min.js')}}"></script>
 <script src="{{ asset('bootstrap-3_3_6/js/bootstrap.min.js')}}"></script>
+<script src="{{ asset('js/siswakuapp.js')}}"></script>
 
 </body>
 </html>
