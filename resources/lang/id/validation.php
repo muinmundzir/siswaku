@@ -170,7 +170,31 @@ return [
             'max' => 'Kolom FOTO tidak boleh lebih dari 500 KB.',
             'mimes' => 'Kolom FOTO hanya boeh diisi file *.jpg, *jpeg, *.png.',
             'dimensions' => 'FOTO harus berukuran 150x180 pixel.',
-        ]
+        ],
+
+        'nama_kelas' => [
+            'required' => 'Nama KELAS harus diisi.',
+            'string' => 'Nama KELAS harus berupa string.',
+            'max' => 'Nama KELAS maksimum 20 karakter.',
+        ],
+
+        'nama_hobi' => [
+            'required' => 'Nama HOBI harus diisi.',
+            'string' => 'Nama HOBI harus berupa string.',
+            'max' => 'Nama HOBI maksimum 30 karakter.',
+        ],
+
+        'email' => [
+            'required' => 'Nama Email harus diisi.',
+            'email' => 'Email harus valid.',
+            'max' => 'Email maksimum 100 karakter.',
+            'unique' => 'Email sudah terdaftar.',
+        ],
+
+        'password' => [
+            'confirmed' => 'Password tidak cocok dengan kolom konfirmasi password.',
+            'min' => 'Password minimal 6 karakter.',
+        ],
     ],
 
     /*

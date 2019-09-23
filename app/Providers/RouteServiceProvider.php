@@ -28,6 +28,8 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
         
         \Route::model('siswa', \App\Siswa::class);
+        \Route::model('kelas', \App\Kelas::class);
+        \Route::model('hobi', \App\Hobi::class);
     }
 
     /**

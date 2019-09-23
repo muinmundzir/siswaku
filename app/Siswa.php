@@ -38,4 +38,14 @@ class Siswa extends Model
     {
         return $this->hobi->pluck('id')->toArray();
     }
+
+    public function scopeKelas($query, $id_kelas)
+    {
+        return $query->where('id_kelas', $id_kelas);
+    }
+
+    public function scopeJenisKelamin($query, $jenis_kelamin)
+    {
+        return $query->where('jenis_kelamin', $jenis_kelamin);
+    }
 }

@@ -41,6 +41,9 @@ Route::get('showmesecret', 'RahasiaController@showMeSecret');
 Route::get('/', 'PagesController@homepage');
 Route::get('about', 'PagesController@about');
 
+// Route autentikasi
+Auth::routes(['register' => false]);
+
 // Route pencarian
 Route::get('siswa/cari', 'SiswaController@cari');
 
@@ -55,5 +58,13 @@ Route::resource('siswa', 'SiswaController');
     // Route::patch('siswa/{siswa}', 'SiswaController@update');
     // Route::delete('siswa/{siswa}', 'SiswaController@destroy');
 
+// Route controller kelas
+Route::resource('kelas', 'KelasController')->parameters([
+    'kelas' => 'kelas'
+]);
 
+// Route controller hobi
+Route::resource('hobi', 'HobiController');
 
+// Route controller user
+Route::resource('user', 'UserController');

@@ -167,8 +167,8 @@ class SiswaController extends Controller
 
             // Query
             $query = Siswa::where('nama_siswa', 'LIKE', '%' .$kata_kunci. '%');
-            (!empty($jenis_kelamin)) ? $query->where('jenis_kelamin', $jenis_kelamin) : '';
-            (!empty($id_kelas)) ? $query->where('id_kelas', $id_kelas) : '';
+            (!empty($jenis_kelamin)) ? $query->JenisKelamin($jenis_kelamin) : '';
+            (!empty($id_kelas)) ? $query->Kelas($id_kelas) : '';
 
             $siswa_list = $query->paginate(2);
 

@@ -7,7 +7,7 @@
         @include('_partial.flash_message')
         @include('siswa.form_pencarian')
 
-        @if (!empty($siswa_list))
+        @if (count($siswa_list) > 0)
             <table class="table">
                 <thead>
                     <tr>
