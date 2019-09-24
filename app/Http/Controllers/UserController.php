@@ -9,11 +9,11 @@ use Session;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
     public function index()
     {
         $user_list = User::all();

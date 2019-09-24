@@ -30,6 +30,7 @@
                         <td>{{ $siswa->jenis_kelamin }}</td>
                         <td>{{ !empty($siswa->telepon->nomor_telepon) ? $siswa->telepon->nomor_telepon : '-'}}</td>
                         <td> 
+                            @if(Auth::check())
                             <div class="box-button">
                                 {{ link_to('siswa/'.$siswa->id, 'Detail', ['class' => 'btn btn-success btn-sm']) }}
                             </div>
@@ -41,6 +42,7 @@
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
                                 {!! Form::close() !!}
                             </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -60,9 +62,11 @@
         </div>
 
         <div class="tombol-nav">
-            <div>
-                <a href="{{ url('siswa/create')}}" class="btn btn-primary">Tambah Siswa</a>
-            </div>
+            @if (Auth::check())
+                <div>
+                    <a href="{{ url('siswa/create')}}" class="btn btn-primary">Tambah Siswa</a>
+                </div>
+            @endif
         </div>
 
     </div>

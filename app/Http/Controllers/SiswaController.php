@@ -13,6 +13,14 @@ use Session;
 
 class SiswaController extends Controller
 {
+    public function __contruct() {
+        $this->middleware('auth', ['except' => [
+            'index',
+            'show',
+            'cari',
+        ]]);
+    }
+
     public function index() {
         $siswa_list = Siswa::orderBy('nisn')
                     ->paginate(10);
