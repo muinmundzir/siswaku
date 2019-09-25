@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         \Route::model('siswa', \App\Siswa::class);
         \Route::model('kelas', \App\Kelas::class);
         \Route::model('hobi', \App\Hobi::class);
+        \Route::model('ekskul', \App\Ekskul::class);
     }
 
     /**

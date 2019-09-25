@@ -195,6 +195,11 @@ return [
             'confirmed' => 'Password tidak cocok dengan kolom konfirmasi password.',
             'min' => 'Password minimal 6 karakter.',
         ],
+
+        'nama_ekskul' => [
+            'required' => 'Nama EKSKUL harus diisi.',
+            'max' => 'Nama EKSKUL maksimum 30 karakter.',
+        ],
     ],
 
     /*

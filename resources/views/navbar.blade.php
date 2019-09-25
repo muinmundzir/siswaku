@@ -43,6 +43,16 @@
                 @endif
             @endif
 
+            {{-- Ekskul --}}
+            @if (Auth::check())
+                @if (!empty($halaman) && $halaman == 'ekskul')
+                    <li class="active"><a href="{{ url('ekskul')}}">Ekskul
+                    <span class="sr-only">(current)</span></a></li>
+                @else
+                    <li><a href="{{ url('ekskul')}}">Ekskul</a></li>
+                @endif
+            @endif
+
             {{-- About --}}
             @if (!empty($halaman) && $halaman == 'about')
                 <li class="active"><a href="{{ url('about') }}">About

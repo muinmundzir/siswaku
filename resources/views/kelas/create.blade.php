@@ -5,7 +5,7 @@
         <h2>Tambah Kelas</h2>
 
         {!! Form::open(['url' => 'kelas']) !!}
-            @include('kelas.form', ['submitButtonText' => 'Simpan']);
+            @include('kelas.form', ['submitButtonText' => 'Simpan'])
         {!! Form::close() !!}
     </div>
 @endsection

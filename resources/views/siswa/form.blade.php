@@ -109,6 +109,26 @@
 </div>
 
 @if ($errors->any())
+    <div class="form-group {{ $errors->has('ekskul_siswa' ? 'has-error' : 'has-success' )}}">
+@else
+    <div class="form-group">
+@endif
+    {!! Form::label('ekskul_siswa', 'Ekskul:', ['class' => 'control-label']) !!}
+    @if (count($ekskul_list) > 0)
+        @foreach ($ekskul_list as $key => $value)
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('ekskul_siswa[]', $key, null) !!}
+                    {{ $value }}
+                </label>
+            </div>
+        @endforeach
+    @else
+        <p>Tidak ada pilihan ekskul</p>
+    @endif
+</div>
+
+@if ($errors->any())
     <div class="form-group {{ $errors->has('foto') ? 'has-error' : 'has-success'}}">
 @else
     <div class="form-group">

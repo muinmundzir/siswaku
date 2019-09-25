@@ -34,6 +34,11 @@ class Siswa extends Model
         return $this->belongsToMany('App\Hobi', 'hobi_siswa', 'id_siswa', 'id_hobi')->withTimeStamps();
     }
 
+    public function ekskul()
+    {
+        return $this->belongsToMany('App\Ekskul', 'ekskul_siswa', 'id_siswa', 'id_ekskul')->withTimeStamps();
+    }
+
     public function getHobiSiswaAttribute()
     {
         return $this->hobi->pluck('id')->toArray();

@@ -9,11 +9,9 @@ use Session;
 
 class HobiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('auth');
+    }
     public function index()
     {
         $hobi_list = Hobi::all();

@@ -8,6 +8,7 @@ use App\Siswa;
 use App\Telepon;
 use App\Kelas;
 use App\Hobi;
+use App\Ekskul;
 use Storage;
 use Session;
 
@@ -53,6 +54,9 @@ class SiswaController extends Controller
         //Insert Hobi
         $siswa->hobi()->attach($request->input('hobi_siswa'));
 
+        //Insert Ekskul
+        $siswa->ekskul()->attach($request->input('ekskul_siswa'));
+
         return redirect('siswa');
     }
 
@@ -85,6 +89,9 @@ class SiswaController extends Controller
         //Update Hobi
         $siswa->hobi()->sync($request->input('hobi_siswa'));
 
+        //Update Ekskul
+        $siswa->ekskul()->sync($request->input('ekskul_siswa'));
+        
         Session::flash('flash_message', 'Data siswa berhasil diupdate.');
         return redirect('siswa');
     }

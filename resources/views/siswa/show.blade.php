@@ -39,6 +39,14 @@
                 </td>
             </tr>
             <tr>
+                <th>Ekskul</th>
+                <td>
+                    @foreach ($siswa->ekskul as $item)
+                        <span>{{ $item->nama_ekskul }}</span>,
+                    @endforeach
+                </td>
+            </tr>
+            <tr>
                 <th>Foto</th>
                 <td>
                     @if (isset($siswa->foto))
@@ -47,7 +55,7 @@
                         @if ($siswa->jenis_kelamin == 'L')
                             <img src="{{ asset('fotoupload/dummymale.jpg')}}">
                         @else
-                            <img src="{{ asset('fotoupload/dammyfemale.jpg')}}">
+                            <img src="{{ asset('fotoupload/dummyfemale.jpg')}}">
                         @endif
                     @endif
                 </td>

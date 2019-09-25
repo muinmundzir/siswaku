@@ -35,6 +35,7 @@ Route::get('halaman-rahasia', [
     'as' => 'secret',
     'uses' => 'RahasiaController@halamanRahasia'
 ]);
+
 Route::get('showmesecret', 'RahasiaController@showMeSecret');
 
 // Route controller halaman statis
@@ -66,5 +67,9 @@ Route::resource('kelas', 'KelasController')->parameters([
 // Route controller hobi
 Route::resource('hobi', 'HobiController');
 
+// Route controller ekskul
+Route::resource('ekskul', 'EkskulController');
+
 // Route controller user
 Route::resource('user', 'UserController');
+

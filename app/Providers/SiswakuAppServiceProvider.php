@@ -37,6 +37,10 @@ class SiswakuAppServiceProvider extends ServiceProvider
             $halaman = 'hobi';
         }
 
+        if (Request::segment(1) == 'ekskul') {
+            $halaman = 'ekskul';
+        }
+
         if(Request::segment(1) == 'about'){
             $halaman = 'about';
         }
