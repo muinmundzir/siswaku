@@ -33,7 +33,7 @@ class CreateTableEkskulSiswa extends Migration
                   ->references('id')
                   ->on('ekskul')
                   ->onDelete('cascade')
-                  ->onUpdate('cascade');w
+                  ->onUpdate('cascade');
         });
     }
 
