@@ -3,9 +3,11 @@
 2. Jalankan command "php artisan migrate" untuk menggenerate table
 
 {{-- Menambahkan user admin --}}
-3. Jalankan command "php artisan db:seed"
+3. Jalankan command "php artisan db:seed --class=UsersTableSeeder"
 
-4. Buka halaman login
+4. Jalankan command "php artisan serve"
+
+5. Buka alamat 127.0.0.1:8000/login
 
 5. Login dengan user admin yang sudah dibuat sebelumnya
 
