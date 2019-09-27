@@ -12,6 +12,8 @@
 5. Login dengan user admin yang sudah dibuat sebelumnya
 
 Note :
+#User email : administrator@gmail.com
+#User Pass : administrator
 User dengan level admin bisa melakukan operasi penuh terhadap aplikasi
 User dengan level operator hanya bisa melakukan operasi kecil terhadap aplikasi
 User tanpa level (tidak melakukan login) hanya bisa melihat data siswa dan about pada aplikasi
